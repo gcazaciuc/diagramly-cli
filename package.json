@@ -1,6 +1,6 @@
 {
     "name": "diagramly",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "main": "index.js",
     "bin": "./bin/cli.js",
     "repository": "https://github.com/gcazaciuc/diagramly.git",
