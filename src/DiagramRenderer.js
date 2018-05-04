@@ -56,14 +56,23 @@ class DiagramRenderer {
         await this.render(diagramCode, scriptPath);
     }
     async createDiagrams(diagramsPath) {
-        const paths = await globby([`${diagramsPath}/**/*.js`]);
+        if (!fs.existsSync(diagramsPath)) {
+            console.error(`Path given to --create( ${diagramsPath} ) does not exist!`);
+            return;
+        }
+
+        let globPath = [`${diagramsPath}/**/*.js`];
+        if (fs.statSync(diagramsPath).isFile()) {
+            globPath = path.resolve(diagramsPath);
+        }
+        const paths = await globby(globPath);
         for (let diagram of paths) {
             await this.createDiagram(diagram);
         }
     }
     transform(code, filepath) {
         const options = {
-            presets: ['env', 'react']
+            presets: [require('babel-preset-env'), require('babel-preset-react')]
         };
         return babel.transform(code, options).code;
     }
